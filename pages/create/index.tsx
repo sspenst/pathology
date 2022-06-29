@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+
 import { AppContext } from '../../contexts/appContext';
 import Dimensions from '../../constants/dimensions';
 import Level from '../../models/db/level';
@@ -6,6 +7,7 @@ import LevelTable from '../../components/levelTable';
 import Page from '../../components/page';
 import World from '../../models/db/world';
 import WorldTable from '../../components/worldTable';
+import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import useUser from '../../hooks/useUser';
 
@@ -33,7 +35,8 @@ export default function Create() {
       }
     }).catch(err => {
       console.error(err);
-      alert('Error fetching levels');
+      toast.dismiss();
+      toast.error('Error fetching levels');
     });
   }, []);
 
@@ -48,7 +51,8 @@ export default function Create() {
       }
     }).catch(err => {
       console.error(err);
-      alert('Error fetching worlds');
+      toast.dismiss();
+      toast.error('Error fetching worlds');
     });
   }, []);
 

@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+
 import { AppContext } from '../../../contexts/appContext';
 import Dimensions from '../../../constants/dimensions';
 import LinkInfo from '../../../models/linkInfo';
@@ -8,6 +9,7 @@ import SelectOption from '../../../models/selectOption';
 import StatsHelper from '../../../helpers/statsHelper';
 import World from '../../../models/db/world';
 import cleanAuthorNote from '../../../helpers/cleanAuthorNote';
+import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import useStats from '../../../hooks/useStats';
 import useUser from '../../../hooks/useUser';
@@ -41,7 +43,8 @@ export default function WorldEditPage() {
       }
     }).catch(err => {
       console.error(err);
-      alert('Error fetching world');
+      toast.dismiss();
+      toast.error('Error fetching world');
     });
   }, [id]);
 

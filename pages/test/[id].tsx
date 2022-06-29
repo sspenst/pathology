@@ -1,9 +1,11 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+
 import { AppContext } from '../../contexts/appContext';
 import Game from '../../components/level/game';
 import Level from '../../models/db/level';
 import LinkInfo from '../../models/linkInfo';
 import Page from '../../components/page';
+import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import useUser from '../../hooks/useUser';
 
@@ -35,7 +37,8 @@ export default function Test() {
       }
     }).catch(err => {
       console.error(err);
-      alert('Error fetching level');
+      toast.dismiss();
+      toast.error('Error fetching level');
     });
   }, [id]);
 

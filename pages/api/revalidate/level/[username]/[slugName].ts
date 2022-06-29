@@ -22,6 +22,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (err: any) {
     // If there was an error, Next.js will continue
     // to show the last successfully generated page
+    console.log('Error!!!', err);
+    console.log('\n\n\n');
+
     return res.status(500).send({ message: err.message, stack: err.stack });
   }
 }
