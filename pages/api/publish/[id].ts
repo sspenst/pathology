@@ -9,6 +9,7 @@ import User from '../../../models/db/user';
 import dbConnect from '../../../lib/dbConnect';
 import discordWebhook from '../../../helpers/discordWebhook';
 import getTs from '../../../helpers/getTs';
+import revalidateLevel from '../../../helpers/revalidateLevel';
 import revalidateUniverse from '../../../helpers/revalidateUniverse';
 
 export default withAuth(async (req: NextApiRequestWithAuth, res: NextApiResponse) => {
@@ -95,6 +96,7 @@ export default withAuth(async (req: NextApiRequestWithAuth, res: NextApiResponse
 
   const [revalidateRes] = await Promise.all([
     revalidateUniverse(req, res),
+    revalidateLevel(req, res, level),
     discordWebhook(`**${user?.name}** published a new level: [${level.name}](${req.headers.origin}/level/${level.slug}?ts=${ts})`),
   ]);
 
