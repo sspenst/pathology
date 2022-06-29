@@ -8,11 +8,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
   }
 
-  const { slugName } = req.query;
+  const { username, slugName } = req.query;
 
   try {
     const promises = [
-      res.revalidate(`/level/${slugName}`),
+      res.revalidate(`/level/${username}/${slugName}`),
     ];
 
     await Promise.all(promises);
