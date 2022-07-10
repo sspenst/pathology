@@ -1,3 +1,7 @@
+import { LevelModel, StatModel, WorldModel } from '../mongoose';
+
+import Level from '../db/level';
+import User from '../db/user';
 import World from '../db/world';
 import mongoose from 'mongoose';
 
@@ -34,6 +38,18 @@ const WorldSchema = new mongoose.Schema<World>({
     strength: 2,
   },
 });
+
+export async function getFirstLevelInWorldNotBeatenByUser(world: World, user: User) {
+  const [levels, levelIdsUserHasBeaten] = await Promise.all([
+    await WorldModel.findById(world._id).populate('levels'),
+    await StatModel.find({ userId: user._id, complete: true }, { levelId: 1 })
+  ]);
+
+  // filter out levels the user has beaten
+  const levelsUserHasNotBeaten = levels.filter((level:Level) => !levelIdsUserHasBeaten.some(levelId => levelId.levelId.equals(level._id)));
+
+  return levelsUserHasNotBeaten[0] || null;
+}
 
 WorldSchema.pre('updateOne', function (next) {
   this.options.runValidators = true;
